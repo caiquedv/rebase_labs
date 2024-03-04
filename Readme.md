@@ -15,4 +15,4 @@
 ### 3. Suba o container contendo o servidor
 `$ docker run --rm --name relabs-server -w /app -v .:/app --network relabs-network -p 3000:3000 ruby bash -c 'bundle install && ruby server.rb'`
 
-Acesse a [listagem](http://localhost:3000)
+Acesse a [listagem](http://localhost:3000/tests)
