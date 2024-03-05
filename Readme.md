@@ -4,7 +4,6 @@ Uma app web para listagem de exames médicos.
 ## Tecnologias 
 - Sinatra
 - Puma
-- RSpec
 - Postgres
 
 ## Pré-requisitos
@@ -47,4 +46,5 @@ $ docker run --rm --name relabs-server -w /app -v .:/app \
 6. Para encerrar: <br>
 Pressione Ctrl + C em ambos os terminais em execução. <br>
 
-Teste a app online em http://localhost:3000/tests.
+Teste a app online em http://localhost:3000/tests. <br>
+Esse endpoint ativo significa que o servidor está online e conectado com o BD.

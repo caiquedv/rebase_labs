@@ -1,15 +1,16 @@
-require 'pg'
-require_relative '../config'
+require_relative '../config/database'
 
 class Test
-  def self.db_test
-    conn = PG.connect(DB_CONFIG)
-    conn.exec('DROP TABLE IF EXISTS teste;')
-    conn.exec('CREATE TABLE teste (ok VARCHAR);')
-    conn.exec("INSERT INTO teste VALUES ('funcionou');")
-    result = conn.exec('SELECT * FROM teste;').entries
-    conn.close    
+  attr_reader :teste
 
+  def initialize(teste)
+    @teste = teste
+  end
+
+  def self.all
+    conn = DatabaseConfig.connect
+    result = conn.exec('SELECT * FROM test;').entries
+    conn.close
     result
   end
 end

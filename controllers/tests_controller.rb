@@ -1,7 +1,10 @@
-require 'sinatra'
-require_relative '../models/test'
+require_relative '../repositories/test_repository'
+
+before '/tests' do
+  DatabaseConfig.test_setup
+end
 
 get '/tests' do
   content_type :json
-  Test.db_test.to_json
+  TestRepository.all.to_json
 end
