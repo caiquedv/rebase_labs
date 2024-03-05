@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Inicia os contêineres em rede usando o Docker Compose
+docker-compose up

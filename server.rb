@@ -1,5 +1,7 @@
 require 'sinatra'
-require './routes/index.rb'
+
+Dir[File.join(__dir__, 'models', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'controllers', '*.rb')].each { |file| require file }
 
 set :port, 3000
 set :bind, '0.0.0.0'
