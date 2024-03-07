@@ -1,10 +1,10 @@
 require_relative '../repositories/test_repository'
-
-before '/tests' do
-  DatabaseConfig.test_setup
-end
+require_relative '../services/database'
 
 get '/tests' do
   content_type :json
-  TestRepository.all.to_json
+  conn = DatabaseConfig.connect
+  result = TestRepository.all(conn)
+  conn.close
+  result.to_json
 end

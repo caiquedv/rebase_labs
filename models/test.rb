@@ -1,16 +1,7 @@
-require_relative '../config/database'
-
 class Test
-  attr_reader :teste
+  attr_reader :ping
 
-  def initialize(teste)
-    @teste = teste
-  end
-
-  def self.all
-    conn = DatabaseConfig.connect
-    result = conn.exec('SELECT * FROM test;').entries
-    conn.close
-    result
+  def initialize(ping)
+    @ping = ping
   end
 end

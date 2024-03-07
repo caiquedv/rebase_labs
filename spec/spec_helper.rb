@@ -13,16 +13,26 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-ENV['RACK_ENV'] = 'test'
-
 require 'sinatra'
 require 'rack/test'
+require_relative '../services/database'
+require_relative '../config/config'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   
   def app
     Sinatra::Application
+  end
+
+  config.before(:each) do
+    @conn = DatabaseConfig.connect(DB_CONFIG_TEST)
+    @conn.exec('BEGIN')
+  end
+
+  config.after(:each) do
+    @conn.exec('DELETE FROM tests;')
+    @conn.close
   end
   
   # rspec-expectations config goes here. You can use an alternate
