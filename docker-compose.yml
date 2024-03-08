@@ -3,9 +3,9 @@ version: '3'
 services:
   db:
     image: postgres
-    restart: always
     volumes:
       - ./db:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -17,9 +17,9 @@ services:
 
   db_test:
     image: postgres
-    restart: always
     volumes:
       - db_test:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}_test

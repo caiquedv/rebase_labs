@@ -2,37 +2,44 @@ require 'csv'
 require_relative '../services/database'
 
 class CSVImporter
-  def self.import
-    rows = CSV.read("./data/data.csv", col_sep: ';')
+  def self.import(conn)
+    rows = CSV.read('./data/data.csv', col_sep: ';')
 
-    columns = process_columns(rows.shift)
+    columns = normalize_column_names(rows.shift)
 
-    create_table(columns)
+    rows_data = build_rows_data(rows, columns)
 
+    query = build_insert_query(rows_data, columns)
+
+    conn.exec(query)
+    conn.exec('SELECT * FROM tests;')
+  end
+
+  def self.normalize_column_names(columns)
+    columns.map do |column|
+      column.gsub(%r{[/\s]}, '_')
+            .gsub(/[éèê]/, 'e')
+            .gsub('ç', 'c')
+    end
+  end
+
+  def self.build_rows_data(rows, columns)
     rows.map do |row|
       row.each_with_object({}).with_index do |(cell, acc), idx|
         column = columns[idx]
-        acc[column] = cell
+        acc[column] = cell.gsub("'", "''")
       end
     end
-
   end
 
-  def self.create_table(columns)
-    conn = DatabaseConfig.connect
-    conn.exec(
-      "CREATE TABLE IF NOT EXISTS exams (
-        id SERIAL PRIMARY KEY,
-        #{columns.map { |col| col.include?('data') ? "#{col} DATE" : "#{col} VARCHAR" }.join(', ') }
-      );"
-    ) 
-    conn.close
-  end
+  def self.build_insert_query(rows, columns)
+    query = "INSERT INTO tests (#{columns.join(', ')}) VALUES "
 
-  def self.process_columns(columns)
-    processed_columns = columns.map do |column|
-      column.downcase.gsub(/[^a-z0-9\s]/i, '').gsub(/\s+/, '_')
+    rows.each_with_index do |row, idx|
+      query << "('#{row.values.join("', '")}')"
+      query << ', ' if idx != rows.length - 1
     end
-    processed_columns
-  end  
+
+    "#{query};"
+  end
 end

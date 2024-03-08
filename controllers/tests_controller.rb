@@ -1,10 +1,11 @@
-require_relative '../repositories/test_repository'
 require_relative '../services/database'
 
 get '/tests' do
   content_type :json
+
   conn = DatabaseConfig.connect
-  result = TestRepository.all(conn)
+  result = conn.exec('SELECT * FROM tests;').entries
   conn.close
+
   result.to_json
 end
