@@ -13,6 +13,8 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+ENV['RACK_ENV'] = 'test'
+
 require 'simplecov'
 SimpleCov.start
 
@@ -20,6 +22,7 @@ require 'sinatra'
 require 'rack/test'
 require_relative '../services/database'
 require_relative '../config/config'
+
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
@@ -29,12 +32,11 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    @conn = DatabaseConfig.connect(DB_CONFIG_TEST)
-    @conn.exec('BEGIN')
+    @conn = DatabaseConfig.connect
   end
 
   config.after(:each) do
-    @conn.exec('ROLLBACK;')
+    @conn.exec('TRUNCATE TABLE tests;')
     @conn.close
   end
   

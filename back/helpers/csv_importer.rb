@@ -2,7 +2,9 @@ require 'csv'
 require_relative '../services/database'
 
 class CSVImporter
-  def self.import(conn)
+  def self.import
+    conn = DatabaseConfig.connect
+    
     rows = CSV.read('./data/data.csv', col_sep: ';')
 
     columns = normalize_column_names(rows.shift)
@@ -12,7 +14,9 @@ class CSVImporter
     query = build_insert_query(rows_data, columns)
 
     conn.exec(query)
-    conn.exec('SELECT * FROM tests;')
+    result = conn.exec('SELECT * FROM tests;')
+    conn.close
+    result
   end
 
   def self.normalize_column_names(columns)

@@ -18,9 +18,9 @@ CREATE TABLE tests (
     resultado_tipo_exame      VARCHAR(255)
 );
 
-CREATE DATABASE lab_test;
+CREATE DATABASE test;
 
-\c lab_test
+\c test
 
 CREATE TABLE tests (
     id                        SERIAL PRIMARY KEY,
@@ -41,3 +41,5 @@ CREATE TABLE tests (
     limites_tipo_exame        VARCHAR(255),
     resultado_tipo_exame      VARCHAR(255)
 );
+
+\q
