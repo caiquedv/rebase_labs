@@ -2,7 +2,6 @@ require 'sinatra'
 require 'debug'
 require_relative 'services/database'
 
-Dir[File.join(__dir__, 'models', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'controllers', '*.rb')].each { |file| require file }
 
 set :port, 3000

@@ -34,7 +34,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    @conn.exec('DELETE FROM tests;')
+    @conn.exec('ROLLBACK;')
     @conn.close
   end
   

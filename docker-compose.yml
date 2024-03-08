@@ -15,20 +15,6 @@ services:
     command: ['postgres', '-c', 'log_statement=all']
     container_name: relabs-db
 
-  db_test:
-    image: postgres
-    volumes:
-      - db_test:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}_test
-      POSTGRES_USER: ${POSTGRES_USER}
-    ports:
-      - "5433:5432"
-    command: ['postgres', '-c', 'log_statement=all']
-    container_name: relabs-db-test
-
   server:
     build: .
     volumes:
@@ -41,6 +27,3 @@ services:
     environment:
       RACK_ENV: development
     command: bash -c 'bundle install && ruby server.rb'
-
-volumes:
- db_test:
