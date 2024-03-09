@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
-    command: ['postgres', '-c', 'log_statement=all']
+    command: 'postgres -c log_statement=all'
     container_name: relabs-db
 
   back:
