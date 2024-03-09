@@ -44,6 +44,25 @@ RSpec.describe Patient, type: :model do
     end
   end
 
+  context '.find_by_cpf' do
+    it 'success' do
+      patient = Patient.create({
+        cpf: '412.625.735-72',
+        name: 'John Cena',
+        email: 'john@email.com',
+        birthdate: '1990-03-08',
+        address: 'Baker Street 221',
+        city: 'London',
+        state: 'LB'
+      })
+
+      patient = Patient.find_by_cpf(patient.cpf, @conn)
+
+      expect(patient).not_to be_nil
+      expect(patient.cpf).to eq '412.625.735-72'
+    end
+  end
+
   context '#valid?' do
     describe 'Should validate a Patient' do
       it 'with empty fields' do
@@ -57,7 +76,7 @@ RSpec.describe Patient, type: :model do
           state: ''
         })
 
-        expect(patient.errors.values.count('cannot be empty')).to eq 6
+        expect(patient.errors.values.count('cannot be empty')).to eq 7
       end
 
       it 'with existing cpf' do

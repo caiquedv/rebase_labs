@@ -38,6 +38,15 @@ class Exam
     exam
   end
 
+  def self.find_by_token(token, conn = nil)
+    conn ||= DatabaseConfig.connect
+
+    result = conn.exec_params('SELECT * FROM exams WHERE result_token = $1 LIMIT 1;', [token]).entries.first
+    
+    return new(result.transform_keys(&:to_sym)) if result
+    nil
+  end
+
   def valid?(conn)
     class_attributes.each do |attr|
       next if attr === :result_date
@@ -49,11 +58,11 @@ class Exam
     @errors.empty?
   end
 
-  private
-
   def class_attributes
     %i[patient_id doctor_id result_token result_date]
   end
+  
+  private
 
   def result_token_exists?(conn)
     result = conn.exec_params('SELECT COUNT(*) FROM exams WHERE result_token = $1', [result_token]).getvalue(0, 0).to_i

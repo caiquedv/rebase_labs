@@ -41,6 +41,15 @@ class Patient
     patient
   end
 
+  def self.find_by_cpf(cpf, conn = nil)
+    conn ||= DatabaseConfig.connect
+
+    result = conn.exec_params('SELECT * FROM patients WHERE cpf = $1 LIMIT 1;', [cpf]).entries.first
+    
+    return new(result.transform_keys(&:to_sym)) if result
+    nil
+  end
+
   def valid?(conn)
     class_attributes.each do |attr|
       @errors[attr] = 'cannot be empty' if send(attr).nil? || send(attr).empty?
@@ -50,12 +59,12 @@ class Patient
     
     @errors.empty?
   end
+  
+  def class_attributes
+    %i[cpf name email birthdate address city state]
+  end
 
   private
-
-  def class_attributes
-    %i[cpf name birthdate address city state]
-  end
 
   def cpf_exists?(cpf, conn)
     result = conn.exec_params('SELECT COUNT(*) FROM patients WHERE cpf = $1', [cpf]).getvalue(0, 0).to_i

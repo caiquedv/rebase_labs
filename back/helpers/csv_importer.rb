@@ -1,49 +1,67 @@
 require 'csv'
 require_relative '../services/database'
 
+Dir[File.join(__dir__, '../models', '*.rb')].each { |file| require file }
+
 class CSVImporter
   def self.import
     conn = DatabaseConfig.connect
-    
+   
     rows = CSV.read('./data/data.csv', col_sep: ';')
 
-    columns = normalize_column_names(rows.shift)
+    columns = rows.shift
+    
+    patient = Patient.new
+    doctor = Doctor.new
+    exam = Exam.new
+    test = Test.new
 
-    rows_data = build_rows_data(rows, columns)
-
-    query = build_insert_query(rows_data, columns)
-
-    conn.exec(query)
-    result = conn.exec('SELECT * FROM tests;')
-    conn.close
-    result
-  end
-
-  def self.normalize_column_names(columns)
-    columns.map do |column|
-      column.gsub(%r{[/\s]}, '_')
-            .gsub(/[éèê]/, 'e')
-            .gsub('ç', 'c')
-    end
-  end
-
-  def self.build_rows_data(rows, columns)
-    rows.map do |row|
-      row.each_with_object({}).with_index do |(cell, acc), idx|
-        column = columns[idx]
-        acc[column] = cell.gsub("'", "''")
-      end
-    end
-  end
-
-  def self.build_insert_query(rows, columns)
-    query = "INSERT INTO tests (#{columns.join(', ')}) VALUES "
+    patient_hash = {}
+    doctor_hash = {}
+    exam_hash = {}
+    test_hash = {}
 
     rows.each_with_index do |row, idx|
-      query << "('#{row.values.join("', '")}')"
-      query << ', ' if idx != rows.length - 1
+      patient_values = row.slice!(0, patient.class_attributes.count)
+      doctor_values = row.slice!(0, doctor.class_attributes.count)
+      exam_values = row.slice!(0, 2)
+      test_values = row
+
+      patient.class_attributes.map.with_index do |attr, idx|
+        patient_hash[attr] = patient_values[idx]
+      end
+
+      doctor.class_attributes.map.with_index do |attr, idx|
+        doctor_hash[attr] = doctor_values[idx]
+      end
+      
+      exam_attrs = exam.class_attributes
+      exam_attrs.shift(2)
+      exam_attrs.map.with_index do |attr, idx|
+        exam_hash[attr] = exam_values[idx]
+      end
+
+      test_attrs = test.class_attributes
+      test_attrs.shift
+      test_attrs.map.with_index do |attr, idx|
+        test_hash[attr] = test_values[idx]
+      end
+
+      patient = Patient.find_by_cpf(patient_hash[:cpf], conn)
+      patient ||= Patient.create(patient_hash)
+
+      doctor = Doctor.find_by_crm_per_state(doctor_hash[:crm], doctor_hash[:crm_state], conn)
+      doctor ||= Doctor.create(doctor_hash)
+
+      exam_hash[:patient_id] = patient.id
+      exam_hash[:doctor_id] = doctor.id
+      exam = Exam.find_by_token(exam_hash[:result_token], conn)
+      exam ||= Exam.create(exam_hash)
+
+      test_hash[:exam_id] = exam.id
+      test = Test.create(test_hash)
     end
 
-    "#{query};"
+    conn.close
   end
 end

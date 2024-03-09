@@ -47,8 +47,6 @@ class Test
     @errors.empty?
   end
 
-  private
-
   def class_attributes
     %i[exam_id test_type test_type_limits test_type_results]
   end

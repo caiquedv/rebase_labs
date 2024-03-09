@@ -1,5 +1,7 @@
 require 'spec_helper'
 require_relative '../../models/exam'
+require_relative '../../models/patient'
+require_relative '../../models/doctor'
 
 RSpec.describe Exam, type: :model do
   context '.create' do
@@ -49,6 +51,39 @@ RSpec.describe Exam, type: :model do
         expect(exam.id).to be_nil
         expect(exam.errors[:base]).to eq("Error when executing SQL query: Database error")
       end
+    end
+  end
+
+  context '.find_by_token' do
+    it 'success' do
+      patient = Patient.create({
+        cpf: '412.625.735-72',
+        name: 'John Cena',
+        email: 'john@email.com',
+        birthdate: '1990-03-08',
+        address: 'Baker Street 221',
+        city: 'London',
+        state: 'LB'
+      })
+
+      doctor = Doctor.create({
+        crm: 'B000BJ20J4',
+        crm_state: 'PI',
+        name: 'Maria Luiza',
+        email: 'denna@wisozk.biz'
+      })
+
+      exam = Exam.create({
+        patient_id: patient.id,
+        doctor_id: doctor.id,
+        result_token: 'IQCZ17',
+        result_date: '2021-08-05'
+      })
+
+      exam = Exam.find_by_token(exam.result_token, @conn)
+
+      expect(exam).not_to be_nil
+      expect(exam.result_token).to eq 'IQCZ17'
     end
   end
 

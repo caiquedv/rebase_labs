@@ -1,8 +1,7 @@
-require_relative 'back/helpers/csv_importer'
-require_relative 'back/services/database'
+require_relative 'helpers/csv_importer'
 
 conn = DatabaseConfig.connect
 
-CSVImporter.import(conn)
+CSVImporter.import
 
 conn.close

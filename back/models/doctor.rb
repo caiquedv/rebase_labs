@@ -38,6 +38,15 @@ class Doctor
     doctor
   end
 
+  def self.find_by_crm_per_state(crm, crm_state, conn = nil)
+    conn ||= DatabaseConfig.connect
+
+    result = conn.exec_params('SELECT * FROM doctors WHERE crm = $1 AND crm_state = $2 LIMIT 1;', [crm, crm_state]).entries.first
+    
+    return new(result.transform_keys(&:to_sym)) if result
+    nil
+  end
+
   def valid?(conn)
     class_attributes.each do |attr|
       @errors[attr] = 'cannot be empty' if send(attr).nil? || send(attr).empty?
@@ -48,11 +57,11 @@ class Doctor
     @errors.empty?
   end
 
-  private
-
   def class_attributes
     %i[crm crm_state name email]
   end
+
+  private
 
   def crm_exists?(conn)
     result = conn.exec_params('SELECT COUNT(*) FROM doctors WHERE crm = $1 AND crm_state = $2', [crm, crm_state]).getvalue(0, 0).to_i

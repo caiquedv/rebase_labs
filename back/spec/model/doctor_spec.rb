@@ -35,6 +35,24 @@ RSpec.describe Doctor, type: :model do
     end
   end
 
+  context '.find_by_crm_per_state' do
+    it 'success' do
+      doctor = Doctor.create({
+        crm: 'B000BJ20J4',
+        crm_state: 'PI',
+        name: 'Maria Luiza',
+        email: 'denna@wisozk.biz'
+      })
+
+      doctor = Doctor.find_by_crm_per_state(doctor.crm, doctor.crm_state, @conn)
+
+      expect(doctor).not_to be_nil
+      expect(doctor.crm).to eq 'B000BJ20J4'
+      expect(doctor.crm_state).to eq 'PI'
+    end
+  end
+  
+
   context '#valid?' do
     describe 'Should validate a Doctor' do
       it 'with empty fields' do
