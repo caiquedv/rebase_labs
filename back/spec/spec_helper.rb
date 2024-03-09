@@ -18,6 +18,7 @@ ENV['RACK_ENV'] = 'test'
 require 'simplecov'
 SimpleCov.start
 
+require 'debug'
 require 'sinatra'
 require 'rack/test'
 require_relative '../services/database'
@@ -31,12 +32,15 @@ RSpec.configure do |config|
     Sinatra::Application
   end
 
-  config.before(:each) do
+  config.before(:all) do
     @conn = DatabaseConfig.connect
   end
 
   config.after(:each) do
-    @conn.exec('TRUNCATE TABLE tests;')
+    @conn.exec('TRUNCATE TABLE patients, doctors, exams, tests;')
+  end
+
+  config.after(:all) do
     @conn.close
   end
   

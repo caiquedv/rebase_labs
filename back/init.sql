@@ -1,45 +1,95 @@
+CREATE TABLE patients (
+  id SERIAL PRIMARY KEY,
+  cpf VARCHAR UNIQUE NOT NULL,
+  name VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  birthdate DATE NOT NULL,
+  address VARCHAR NOT NULL,
+  city VARCHAR NOT NULL,
+  state VARCHAR NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE doctors (
+  id SERIAL PRIMARY KEY,
+  crm VARCHAR NOT NULL,
+  crm_state VARCHAR NOT NULL,
+  name VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  CONSTRAINT unique_crm_state UNIQUE (crm, crm_state),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE exams (
+  id SERIAL PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  result_token VARCHAR UNIQUE NOT NULL,
+  result_date VARCHAR,
+  CONSTRAINT fk_patient_id FOREIGN KEY (patient_id) REFERENCES patients(id),
+  CONSTRAINT fk_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE tests (
-    id                        SERIAL PRIMARY KEY,
-    cpf                       VARCHAR(14),
-    nome_paciente             VARCHAR(255),
-    email_paciente            VARCHAR(255),
-    data_nascimento_paciente  DATE,
-    endereco_rua_paciente     VARCHAR(255),
-    cidade_paciente           VARCHAR(100),
-    estado_paciente           VARCHAR(20),
-    crm_medico                VARCHAR(20),
-    crm_medico_estado         VARCHAR(20),
-    nome_medico               VARCHAR(255),
-    email_medico              VARCHAR(255),
-    token_resultado_exame     VARCHAR(255),
-    data_exame                DATE,
-    tipo_exame                VARCHAR(255),
-    limites_tipo_exame        VARCHAR(255),
-    resultado_tipo_exame      VARCHAR(255)
+  id SERIAL PRIMARY KEY,
+  exam_id INT NOT NULL,
+  test_type VARCHAR NOT NULL,
+  test_type_limits VARCHAR NOT NULL,
+  test_type_results VARCHAR,
+  CONSTRAINT fk_exam_id FOREIGN KEY (exam_id) REFERENCES exams(id)
 );
 
 CREATE DATABASE test;
 
 \c test
 
+CREATE TABLE patients (
+  id SERIAL PRIMARY KEY,
+  cpf VARCHAR UNIQUE NOT NULL,
+  name VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  birthdate DATE NOT NULL,
+  address VARCHAR NOT NULL,
+  city VARCHAR NOT NULL,
+  state VARCHAR NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE doctors (
+  id SERIAL PRIMARY KEY,
+  crm VARCHAR NOT NULL,
+  crm_state VARCHAR NOT NULL,
+  name VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  CONSTRAINT unique_crm_state UNIQUE (crm, crm_state),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE exams (
+  id SERIAL PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  result_token VARCHAR UNIQUE NOT NULL,
+  result_date VARCHAR,
+  CONSTRAINT fk_patient_id FOREIGN KEY (patient_id) REFERENCES patients(id),
+  CONSTRAINT fk_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE tests (
-    id                        SERIAL PRIMARY KEY,
-    cpf                       VARCHAR(14),
-    nome_paciente             VARCHAR(255),
-    email_paciente            VARCHAR(255),
-    data_nascimento_paciente  DATE,
-    endereco_rua_paciente     VARCHAR(255),
-    cidade_paciente           VARCHAR(100),
-    estado_paciente           VARCHAR(20),
-    crm_medico                VARCHAR(20),
-    crm_medico_estado         VARCHAR(20),
-    nome_medico               VARCHAR(255),
-    email_medico              VARCHAR(255),
-    token_resultado_exame     VARCHAR(255),
-    data_exame                DATE,
-    tipo_exame                VARCHAR(255),
-    limites_tipo_exame        VARCHAR(255),
-    resultado_tipo_exame      VARCHAR(255)
+  id SERIAL PRIMARY KEY,
+  exam_id INT NOT NULL,
+  test_type VARCHAR NOT NULL,
+  test_type_limits VARCHAR NOT NULL,
+  test_type_results VARCHAR,
+  CONSTRAINT fk_exam_id FOREIGN KEY (exam_id) REFERENCES exams(id)
 );
 
 \q
