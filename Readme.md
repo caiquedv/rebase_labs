@@ -12,13 +12,11 @@ Uma app web para listagem de exames médicos.
 ## Para Executar 
 1. Clone o repositório e acesse o projeto.
 
-2. **Importante:** Renomeie o arquivo `.env.example` para `.env`.
-
-3. Execute `$ bin/dev` para iniciar a aplicação. <br>
+2. Execute `$ bin/dev` para iniciar a aplicação. <br>
 Isso inicia os contêineres do banco de dados e servidor em rede. <br>
 Endereço padrão: http://localhost:3000/.
 
-4. Para encerrar: <br>
+3. Para encerrar: <br>
 Pressione Ctrl + C no terminal onde o Docker Compose está em execução. <br>
 Em seguida, execute `$ docker-compose down` para remover os contêineres.
 

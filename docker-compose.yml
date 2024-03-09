@@ -7,9 +7,9 @@ services:
       - ./back/db:/var/lib/postgresql/data
       - ./back/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: development
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     command: 'postgres -c log_statement=all'
@@ -19,7 +19,6 @@ services:
     build: .
     volumes:
       - ./back:/app
-      - .env:/app/.env
     ports:
       - "3000:3000"
     depends_on:
@@ -31,7 +30,6 @@ services:
     build: .
     volumes:
       - ./front:/app
-      - .env:/app/.env
     ports:
       - "2000:2000"
     command: bash -c 'bundle install && ruby server.rb'
