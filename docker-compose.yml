@@ -4,26 +4,33 @@ services:
   db:
     image: postgres
     volumes:
-      - ./db:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./back/db:/var/lib/postgresql/data
+      - ./back/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: development
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
-    command: ['postgres', '-c', 'log_statement=all']
+    command: 'postgres -c log_statement=all'
     container_name: relabs-db
 
-  server:
+  back:
     build: .
     volumes:
-      - .:/app
-      - .env:/app/.env
+      - ./back:/app
     ports:
       - "3000:3000"
     depends_on:
       - db
-    environment:
-      RACK_ENV: development
     command: bash -c 'bundle install && ruby server.rb'
+    container_name: relabs-back
+
+  front:
+    build: .
+    volumes:
+      - ./front:/app
+    ports:
+      - "2000:2000"
+    command: bash -c 'bundle install && ruby server.rb'
+    container_name: relabs-front
