@@ -13,7 +13,7 @@ RSpec.describe Patient, type: :model do
           address: 'Baker Street 221',
           city: 'London',
           state: 'LB'
-        })
+        }, @conn)
         
         expect(patient.id).not_to be_nil
         expect(patient.cpf).to eq '412.625.735-72'
@@ -36,7 +36,7 @@ RSpec.describe Patient, type: :model do
           address: 'Baker Street 221',
           city: 'London',
           state: 'LB'
-        })
+        }, @conn)
 
         expect(patient.id).to be_nil
         expect(patient.errors[:base]).to eq("Error when executing SQL query: Database error")
@@ -54,7 +54,7 @@ RSpec.describe Patient, type: :model do
         address: 'Baker Street 221',
         city: 'London',
         state: 'LB'
-      })
+      }, @conn)
 
       patient = Patient.find_by_cpf(patient.cpf, @conn)
 
@@ -66,7 +66,7 @@ RSpec.describe Patient, type: :model do
   context '#valid?' do
     describe 'Should validate a Patient' do
       it 'with empty fields' do
-        patient = Patient.create({
+        patient = Patient.new({
           cpf: '',
           name: '',
           email: '',
@@ -76,6 +76,7 @@ RSpec.describe Patient, type: :model do
           state: ''
         })
 
+        expect(patient).not_to be_valid
         expect(patient.errors.values.count('cannot be empty')).to eq 7
       end
 
@@ -88,15 +89,13 @@ RSpec.describe Patient, type: :model do
           address: 'Baker Street 221',
           city: 'London',
           state: 'LB'
-        })
+        }, @conn)
 
-        patient = Patient.create({
-          cpf: '412.625.735-72'
-        })
+        patient = Patient.new({ cpf: '412.625.735-72' })
 
+        expect(patient).not_to be_valid
         expect(patient.errors.values.count('must be unique')).to eq 1
       end
     end
   end
-  
 end

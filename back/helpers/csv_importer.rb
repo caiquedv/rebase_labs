@@ -47,19 +47,15 @@ class CSVImporter
         test_hash[attr] = test_values[idx]
       end
 
-      patient = Patient.find_by_cpf(patient_hash[:cpf], conn)
-      patient ||= Patient.create(patient_hash)
-
-      doctor = Doctor.find_by_crm_per_state(doctor_hash[:crm], doctor_hash[:crm_state], conn)
-      doctor ||= Doctor.create(doctor_hash)
+      patient = Patient.create(patient_hash, conn)
+      doctor = Doctor.create(doctor_hash, conn)
 
       exam_hash[:patient_id] = patient.id
       exam_hash[:doctor_id] = doctor.id
-      exam = Exam.find_by_token(exam_hash[:result_token], conn)
-      exam ||= Exam.create(exam_hash)
-
+      exam = Exam.create(exam_hash, conn)
+      
       test_hash[:exam_id] = exam.id
-      test = Test.create(test_hash)
+      test = Test.create(test_hash, conn)
     end
 
     conn.close

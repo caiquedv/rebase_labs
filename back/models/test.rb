@@ -14,9 +14,9 @@ class Test
     @errors = {}
   end
 
-  def self.create(attributes = {})
+  def self.create(attributes = {}, conn, close_conn: false)
     test = new(attributes)
-    conn = DatabaseConfig.connect
+    conn ||= DatabaseConfig.connect
 
     begin
       if test.valid?(conn)
@@ -32,7 +32,7 @@ class Test
     rescue PG::Error => e
       test.errors[:base] = "Error when executing SQL query: #{e.message}"
     ensure
-      conn.close if conn
+      conn.close if close_conn && conn
     end
 
     test

@@ -10,7 +10,7 @@ RSpec.describe Doctor, type: :model do
           crm_state: 'PI',
           name: 'Maria Luiza',
           email: 'denna@wisozk.biz'
-        })
+        }, @conn)
         
         expect(doctor.id).not_to be_nil
         expect(doctor.crm).to eq 'B000BJ20J4'
@@ -27,7 +27,7 @@ RSpec.describe Doctor, type: :model do
           crm_state: 'PI',
           name: 'Maria Luiza',
           email: 'denna@wisozk.biz'
-        })
+        }, @conn)
 
         expect(doctor.id).to be_nil
         expect(doctor.errors[:base]).to eq("Error when executing SQL query: Database error")
@@ -42,7 +42,7 @@ RSpec.describe Doctor, type: :model do
         crm_state: 'PI',
         name: 'Maria Luiza',
         email: 'denna@wisozk.biz'
-      })
+      }, @conn)
 
       doctor = Doctor.find_by_crm_per_state(doctor.crm, doctor.crm_state, @conn)
 
@@ -56,13 +56,14 @@ RSpec.describe Doctor, type: :model do
   context '#valid?' do
     describe 'Should validate a Doctor' do
       it 'with empty fields' do
-        doctor = Doctor.create({
+        doctor = Doctor.new({
           crm: '',
           crm_state: '',
           name: '',
           email: ''
         })
 
+        expect(doctor).not_to be_valid
         expect(doctor.errors.values.count('cannot be empty')).to eq 4
       end
 
@@ -72,13 +73,11 @@ RSpec.describe Doctor, type: :model do
           crm_state: 'PI',
           name: 'Maria Luiza',
           email: 'denna@wisozk.biz'
-        })
+        }, @conn)
 
-        doctor = Doctor.create({
-          crm: 'B000BJ20J4',
-          crm_state: 'PI'
-        })
-
+        doctor = Doctor.new({ crm: 'B000BJ20J4', crm_state: 'PI' })
+        
+        expect(doctor).not_to be_valid
         expect(doctor.errors.values.count('must be unique per state')).to eq 1
       end
     end
