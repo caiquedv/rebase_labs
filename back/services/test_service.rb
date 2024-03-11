@@ -24,9 +24,9 @@ class TestService
         ) AS doctor,
         jsonb_agg(
           jsonb_build_object(
-            'test_type', t.test_type,
-            'test_type_limits', t.test_type_limits,
-            'test_type_results', t.test_type_results
+            'type', t.type,
+            'limits', t.limits,
+            'results', t.results
           )
         ) AS tests
       FROM

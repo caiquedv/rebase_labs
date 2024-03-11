@@ -37,9 +37,9 @@ CREATE TABLE exams (
 CREATE TABLE tests (
   id SERIAL PRIMARY KEY,
   exam_id INT NOT NULL,
-  test_type VARCHAR NOT NULL,
-  test_type_limits VARCHAR NOT NULL,
-  test_type_results VARCHAR,
+  type VARCHAR NOT NULL,
+  limits VARCHAR NOT NULL,
+  results VARCHAR,
   CONSTRAINT fk_exam_id FOREIGN KEY (exam_id) REFERENCES exams(id)
 );
 
@@ -86,9 +86,9 @@ CREATE TABLE exams (
 CREATE TABLE tests (
   id SERIAL PRIMARY KEY,
   exam_id INT NOT NULL,
-  test_type VARCHAR NOT NULL,
-  test_type_limits VARCHAR NOT NULL,
-  test_type_results VARCHAR,
+  type VARCHAR NOT NULL,
+  limits VARCHAR NOT NULL,
+  results VARCHAR,
   CONSTRAINT fk_exam_id FOREIGN KEY (exam_id) REFERENCES exams(id)
 );
 

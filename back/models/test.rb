@@ -1,14 +1,14 @@
 require_relative '../services/database'
 
 class Test
-  attr_accessor :id, :exam_id, :test_type, :test_type_limits, :test_type_results, :created_at, :updated_at, :errors
+  attr_accessor :id, :exam_id, :type, :limits, :results, :created_at, :updated_at, :errors
 
   def initialize(params = {})
     @id = params[:id]
     @exam_id = params[:exam_id]
-    @test_type = params[:test_type]
-    @test_type_limits = params[:test_type_limits]
-    @test_type_results = params[:test_type_results]
+    @type = params[:type]
+    @limits = params[:limits]
+    @results = params[:results]
     @created_at = params[:created_at]
     @updated_at = params[:updated_at]
     @errors = {}
@@ -40,7 +40,7 @@ class Test
 
   def valid?(conn)
     class_attributes.each do |attr|
-      next if attr === :test_type_results
+      next if attr === :results
       @errors[attr] = 'cannot be empty' if send(attr).nil? || send(attr).empty?
     end
 
@@ -48,6 +48,6 @@ class Test
   end
 
   def class_attributes
-    %i[exam_id test_type test_type_limits test_type_results]
+    %i[exam_id type limits results]
   end
 end
