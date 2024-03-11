@@ -17,7 +17,7 @@ Isso inicia os serviços do banco de dados e servidor. <br>
 
 3. Para encerrar: <br>
 Pressione Ctrl + C no terminal onde o Docker Compose está em execução. <br>
-(Opcional) Execute `$ docker-compose down -v` para remover os serviços e volumes.
+(Opcional) Execute `$ docker-compose down --volumes` para remover os serviços e volumes.
 
 Nota: Para acessar um terminal execute `$ docker exec -it relabs-back bash`. Por ele você é capaz de popular o banco de dados com `$ ruby import_from_csv.rb` e verificar os testes com `$ rspec`.
 

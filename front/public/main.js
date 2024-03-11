@@ -1,1 +1,1 @@
-console.log('main.js no server')
+document.querySelector('h1').innerHTML = 'Teste'
