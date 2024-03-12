@@ -16,3 +16,8 @@ get '/fetch' do
   content_type :json
   Fetch.all
 end
+
+get '/fetch/:token' do
+  content_type :json
+  Fetch.find_by_token(params[:token])
+end

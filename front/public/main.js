@@ -1,6 +1,46 @@
 const fragment = new DocumentFragment();
 const url = '/fetch';
 
+document.addEventListener('submit', async (e) => {
+  e.preventDefault()
+
+  const token = e.target[0].value
+
+  const resToken = await fetch(`/fetch/${token}`)
+  const dataToken = await resToken.json();
+  
+  const node = document.querySelector("ul");
+  if (node.parentNode) {
+    node.parentNode.removeChild(node);
+  }
+
+  const ul = document.createElement('ul');
+
+  addListItem(ul, `Token: ${dataToken.result_token}`);
+  addListItem(ul, `Result Date: ${dataToken.result_date}`);
+  addListItem(ul, `Patient: ${dataToken.patient.name}`);
+  addListItem(ul, `CPF: ${dataToken.patient.cpf}`);
+  addListItem(ul, `City: ${dataToken.patient.city}`);
+  addListItem(ul, `State: ${dataToken.patient.state}`);
+  addListItem(ul, `Address: ${dataToken.patient.address}`);
+  addListItem(ul, `Birthdate: ${dataToken.patient.birthdate}`);
+  addListItem(ul, `Doctor: ${dataToken.doctor.name}`);
+  addListItem(ul, `CRM: ${dataToken.doctor.crm}`);
+  addListItem(ul, `CRM State: ${dataToken.doctor.crm_state}`);
+
+  const list = document.createElement('ul');
+  dataToken.tests.forEach(function(test) {
+    addListItem(list, `Type: ${test.type}`);
+    addListItem(list, `Type Limits: ${test.limits}`);
+    addListItem(list, `Type Results: ${test.results}`);
+  });
+
+  ul.appendChild(list);
+  const body = document.querySelector('body');
+  body.appendChild(ul);
+
+});
+
 const fetchData = async () => {
   try {
     const response = await fetch(url);
