@@ -1,11 +1,9 @@
 require_relative '../services/database'
+require_relative '../services/test_service'
 
 get '/tests' do
   content_type :json
+  response.header['Access-Control-Allow-Origin'] = '*'
 
-  conn = DatabaseConfig.connect
-  result = conn.exec('SELECT * FROM tests;').entries
-  conn.close
-
-  result.to_json
+  TestService.parse_tests
 end

@@ -13,22 +13,21 @@ Uma app web para listagem de exames médicos.
 1. Clone o repositório e acesse o projeto.
 
 2. Execute `$ bin/dev` para iniciar a aplicação. <br>
-Isso inicia os contêineres do banco de dados e servidor em rede. <br>
-Endereço padrão: http://localhost:3000/.
+Isso inicia os serviços do banco de dados e servidor. <br>
 
 3. Para encerrar: <br>
 Pressione Ctrl + C no terminal onde o Docker Compose está em execução. <br>
-Em seguida, execute `$ docker-compose down` para remover os contêineres.
+(Opcional) Execute `$ docker-compose down --volumes` para remover os serviços e volumes.
 
-Nota: Para acessar um terminal execute `$ docker exec -it relabs-back bash`.
+Nota: Para acessar um terminal execute `$ docker exec -it relabs-back bash`. Por ele você é capaz de popular o banco de dados com `$ ruby import_from_csv.rb` e verificar os testes com `$ rspec`.
 
 ## Documentação da API
 
 ```shell
-GET /tests <br>
+GET /tests
 ```
 
-Retorna um JSON com listagem de todos os exames cadastrados
+Retorna um JSON com lista de todos os exames cadastrados
 
 ```json
 [
@@ -52,14 +51,14 @@ Retorna um JSON com listagem de todos os exames cadastrados
     },
     "tests": [
       {
-        "test_type": "hemácias",
-        "test_type_limits": "45-52",
-        "test_type_results": "97"
+        "type": "hemácias",
+        "limits": "45-52",
+        "results": "97"
       },
       {
-        "test_type": "leucócitos",
-        "test_type_limits": "9-61",
-        "test_type_results": "89"
+        "type": "leucócitos",
+        "limits": "9-61",
+        "results": "89"
       }
     ]  
   }

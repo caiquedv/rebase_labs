@@ -34,15 +34,15 @@ RSpec.describe Test, type: :model do
 
         test = Test.create({
           exam_id: exam.id,
-          test_type: 'hemácias',
-          test_type_limits: '45-52',
-          test_type_results: '97'
+          type: 'hemácias',
+          limits: '45-52',
+          results: '97'
         }, @conn)
         
         expect(test.id).not_to be_nil
-        expect(test.test_type).to eq 'hemácias'
-        expect(test.test_type_limits).to eq '45-52'
-        expect(test.test_type_results).to eq '97'
+        expect(test.type).to eq 'hemácias'
+        expect(test.limits).to eq '45-52'
+        expect(test.results).to eq '97'
       end
 
       it 'failure' do
@@ -50,9 +50,9 @@ RSpec.describe Test, type: :model do
 
         test = Test.create({
           exam_id: '1',
-          test_type: 'hemácias',
-          test_type_limits: '45-52',
-          test_type_results: '97'
+          type: 'hemácias',
+          limits: '45-52',
+          results: '97'
         }, @conn)
 
         expect(test.id).to be_nil

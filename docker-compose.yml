@@ -16,21 +16,34 @@ services:
     container_name: relabs-db
 
   back:
-    build: .
+    image: ruby:latest
+    working_dir: /app
     volumes:
       - ./back:/app
     ports:
       - "3000:3000"
     depends_on:
       - db
-    command: bash -c 'bundle install && ruby server.rb'
+    command: bash -c 'gem install bundler && bundle install && ruby server.rb'
     container_name: relabs-back
 
+  chrome:
+    image: browserless/chrome:1.31-chrome-stable
+    ports:
+      - '3333:3333'
+    volumes:
+      - .:/app:cached
+    environment:
+      PORT: 3333
+
   front:
-    build: .
+    image: ruby:latest
+    working_dir: /app
     volumes:
       - ./front:/app
+    depends_on:
+      - chrome 
     ports:
       - "2000:2000"
-    command: bash -c 'bundle install && ruby server.rb'
+    command: bash -c 'gem install bundler && bundle install && ruby server.rb'
     container_name: relabs-front
