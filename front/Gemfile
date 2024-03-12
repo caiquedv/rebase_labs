@@ -3,10 +3,12 @@ source 'https://rubygems.org/'
 gem 'puma'
 gem 'rackup'
 gem 'sinatra'
+gem 'faraday'
 
 group :test do
   gem 'capybara'
   gem 'cuprite'
+  gem 'debug'
   gem 'rack-test'
   gem 'rspec'
   gem 'simplecov', require: false

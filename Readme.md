@@ -52,13 +52,13 @@ Retorna um JSON com lista de todos os exames cadastrados
     "tests": [
       {
         "type": "hemácias",
-        "type_limits": "45-52",
-        "type_results": "97"
+        "limits": "45-52",
+        "results": "97"
       },
       {
         "type": "leucócitos",
-        "type_limits": "9-61",
-        "type_results": "89"
+        "limits": "9-61",
+        "results": "89"
       }
     ]  
   }

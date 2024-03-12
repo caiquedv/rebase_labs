@@ -1,5 +1,7 @@
 require 'capybara/rspec'
 require "capybara/cuprite"
+require 'debug'
+require 'rspec'
 
 Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(
