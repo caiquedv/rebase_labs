@@ -23,6 +23,7 @@ require 'sinatra'
 require 'rack/test'
 require_relative '../services/database'
 require_relative '../config/config'
+require_relative '../controllers/tests_controller.rb'
 
 
 RSpec.configure do |config|
