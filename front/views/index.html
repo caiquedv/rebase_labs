@@ -8,10 +8,16 @@
 <body>
   <header>
     <h1>Tests</h1>
-    <form method="GET">
+    <form class="search-token" method="GET">
       <label for="token">Search by token:</label>
       <input type="text" id="token" name="token">
       <button type="submit">Search</button>
+    </form>
+
+    <form class="csv-upload" method="POST" enctype="multipart/form-data">
+      <label for="csvFile">Upload CSV file:</label>
+      <input type="file" id="csvFile" name="csvFile" accept=".csv">
+      <button type="submit">Upload</button>
     </form>
   </header>
   
