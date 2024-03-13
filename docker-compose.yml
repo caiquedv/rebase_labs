@@ -33,7 +33,7 @@ services:
     <<: *back
     container_name: back-jobs
     ports: []
-    command: bash -c 'bundle install && sidekiq -r ./jobs/csv_import_job.rb'
+    command: bash -c 'bundle install && sidekiq -r ./jobs/csv_importer_job.rb'
 
   redis:
     image: redis

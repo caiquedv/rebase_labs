@@ -1,10 +1,10 @@
 require 'sidekiq'
 require_relative '../helpers/csv_importer.rb'
 
-class CSVImportJob
+class CSVImporterJob
   include Sidekiq::Job
 
-  def perform(csv)
-    puts 'performadoooooooo'
+  def perform(rows)
+    CSVImporter.import(rows)
   end
 end

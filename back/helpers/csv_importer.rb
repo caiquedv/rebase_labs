@@ -4,12 +4,11 @@ require_relative '../services/database'
 Dir[File.join(__dir__, '../models', '*.rb')].each { |file| require file }
 
 class CSVImporter
-  def self.import(csv = nil)
+  def self.import(csv_rows = nil)
     connection = DatabaseConfig.connect
 
-    rows = CSV.read('./data/data.csv', col_sep: ';') if csv.nil?
-
-    rows = CSV.read(csv, col_sep: ';') if csv
+    rows = csv_rows if csv_rows
+    rows = CSV.read('./data/data.csv', col_sep: ';') if csv_rows.nil?
 
     columns = rows.shift
     
@@ -62,7 +61,5 @@ class CSVImporter
       end
     end
     connection.close
-
-    {done: 'Your document has been imported'}
   end
 end
