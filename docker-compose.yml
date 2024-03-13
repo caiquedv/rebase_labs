@@ -15,9 +15,11 @@ services:
     command: 'postgres -c log_statement=all'
     container_name: relabs-db
 
-  back:
+  back: &back
     image: ruby:latest
     working_dir: /app
+    environment:
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - ./back:/app
     ports:
@@ -26,6 +28,15 @@ services:
       - db
     command: bash -c 'gem install bundler && bundle install && ruby server.rb'
     container_name: relabs-back
+
+  sidekiq:
+    <<: *back
+    container_name: back-jobs
+    ports: []
+    command: bash -c 'bundle install && sidekiq -r ./jobs/csv_importer_job.rb'
+
+  redis:
+    image: redis
 
   chrome:
     image: browserless/chrome:1.31-chrome-stable
