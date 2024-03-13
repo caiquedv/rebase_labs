@@ -100,8 +100,9 @@ class TestService
        ORDER BY
          e.id;
     ").entries.first
-
+    
     conn.close
+    
     result['patient'] = JSON.parse result['patient']
     result['doctor'] = JSON.parse result['doctor']
     result['tests'] = JSON.parse result['tests']
