@@ -24,6 +24,8 @@ GEM
     docile (1.4.0)
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
     faraday-net_http (3.1.0)
       net-http
     ferrum (0.14)
@@ -38,6 +40,7 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
+    multipart-post (2.4.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     net-http (0.4.1)
@@ -115,6 +118,7 @@ DEPENDENCIES
   cuprite
   debug
   faraday
+  faraday-multipart
   puma
   rack-test
   rackup

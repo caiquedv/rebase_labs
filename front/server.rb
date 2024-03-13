@@ -21,3 +21,8 @@ get '/fetch/:token' do
   content_type :json
   Fetch.find_by_token(params[:token])
 end
+
+post '/fetch/csv' do
+  content_type :json
+  Fetch.import_csv(params[:csvFile][:tempfile])
+end

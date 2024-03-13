@@ -2,8 +2,7 @@ require 'spec_helper'
 require_relative '../../services/fetch.rb'
 
 describe 'User visit home page', js: true do
-  it "sees a list of exams coming from the backend application" do
-    
+  it "sees a list of exams coming from the backend application" do    
     api_response = [
       {
         "result_token": "IQCZ17",
@@ -41,6 +40,7 @@ describe 'User visit home page', js: true do
     allow(Fetch).to receive(:all).and_return(api_response)
     
     visit '/'
+
     expect(page).to have_content 'Token: IQCZ17'
     expect(page).to have_content 'Result Date: 2021-08-05'
     expect(page).to have_content 'Patient: Emilly Batista Neto'
