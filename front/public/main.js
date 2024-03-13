@@ -1,79 +1,72 @@
-const fragment = new DocumentFragment();
-const url = '/fetch';
+const showList = async () => {
+  try {
+	const data = await fetchData('/fetch');    
+	
+	const main = document.querySelector('main');
+	const ul = document.createElement('ul');
 
-document.addEventListener('submit', async (e) => {
-  e.preventDefault()
-
-  const token = e.target[0].value
-
-  const resToken = await fetch(`/fetch/${token}`)
-  const dataToken = await resToken.json();
-  
-  const node = document.querySelector("ul");
-  if (node.parentNode) {
-    node.parentNode.removeChild(node);
+	data.forEach(function(exam) {
+	main.appendChild(createList(ul, exam));
+	});
+  } catch (error) {
+	console.error('Error fetching data:', error);
   }
+ };
+ 
+ document.addEventListener('submit', async (e) => {
+  e.preventDefault();
+ 
+  try {
+	const token = e.target[0].value;
+	const dataPerToken = await fetchData(`/fetch/${token}`);
+	
+	const node = document.querySelector("ul");
+	if (node.parentNode) {
+	node.parentNode.removeChild(node);
+	}
+	
+	const main = document.querySelector('main');
+	const ul = document.createElement('ul');
 
-  const ul = document.createElement('ul');
+	main.appendChild(createList(ul, dataPerToken));
+  } catch (error) {
+	console.error('Error fetching data:', error);
+  }
+ });
+ 
+ const fetchData = async (url) => {
+  try {
+	const response = await fetch(url);
+	const data = await response.json();
+	return data;
+  } catch (error) {
+	console.error('Error fetching data:', error);
+	throw error; 
+  }
+ };
 
-  addListItem(ul, `Token: ${dataToken.result_token}`);
-  addListItem(ul, `Result Date: ${dataToken.result_date}`);
-  addListItem(ul, `Patient: ${dataToken.patient.name}`);
-  addListItem(ul, `CPF: ${dataToken.patient.cpf}`);
-  addListItem(ul, `City: ${dataToken.patient.city}`);
-  addListItem(ul, `State: ${dataToken.patient.state}`);
-  addListItem(ul, `Address: ${dataToken.patient.address}`);
-  addListItem(ul, `Birthdate: ${dataToken.patient.birthdate}`);
-  addListItem(ul, `Doctor: ${dataToken.doctor.name}`);
-  addListItem(ul, `CRM: ${dataToken.doctor.crm}`);
-  addListItem(ul, `CRM State: ${dataToken.doctor.crm_state}`);
+const createList = (parent, exam) => {
+  addListItem(parent, `Token: ${exam.result_token}`);
+  addListItem(parent, `Result Date: ${exam.result_date}`);
+  addListItem(parent, `Patient: ${exam.patient.name}`);
+  addListItem(parent, `CPF: ${exam.patient.cpf}`);
+  addListItem(parent, `City: ${exam.patient.city}`);
+  addListItem(parent, `State: ${exam.patient.state}`);
+  addListItem(parent, `Address: ${exam.patient.address}`);
+  addListItem(parent, `Birthdate: ${exam.patient.birthdate}`);
+  addListItem(parent, `Doctor: ${exam.doctor.name}`);
+  addListItem(parent, `CRM: ${exam.doctor.crm}`);
+  addListItem(parent, `CRM State: ${exam.doctor.crm_state}`);
 
-  const list = document.createElement('ul');
-  dataToken.tests.forEach(function(test) {
-    addListItem(list, `Type: ${test.type}`);
-    addListItem(list, `Type Limits: ${test.limits}`);
-    addListItem(list, `Type Results: ${test.results}`);
+  const testList = document.createElement('ul');
+  exam.tests.forEach(function(test) {
+    addListItem(testList, `Type: ${test.type}`);
+    addListItem(testList, `Type Limits: ${test.limits}`);
+    addListItem(testList, `Type Results: ${test.results}`);
   });
 
-  ul.appendChild(list);
-  const body = document.querySelector('body');
-  body.appendChild(ul);
-
-});
-
-const fetchData = async () => {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();    
-    
-    const ul = document.querySelector('ul');
-
-    data.forEach(function(exam) {
-      addListItem(ul, `Token: ${exam.result_token}`);
-      addListItem(ul, `Result Date: ${exam.result_date}`);
-      addListItem(ul, `Patient: ${exam.patient.name}`);
-      addListItem(ul, `CPF: ${exam.patient.cpf}`);
-      addListItem(ul, `City: ${exam.patient.city}`);
-      addListItem(ul, `State: ${exam.patient.state}`);
-      addListItem(ul, `Address: ${exam.patient.address}`);
-      addListItem(ul, `Birthdate: ${exam.patient.birthdate}`);
-      addListItem(ul, `Doctor: ${exam.doctor.name}`);
-      addListItem(ul, `CRM: ${exam.doctor.crm}`);
-      addListItem(ul, `CRM State: ${exam.doctor.crm_state}`);
-
-      const test_ul = document.createElement('ul');
-      exam.tests.forEach(function(test) {
-        addListItem(test_ul, `Type: ${test.type}`);
-        addListItem(test_ul, `Type Limits: ${test.limits}`);
-        addListItem(test_ul, `Type Results: ${test.results}`);
-      });
-
-      ul.appendChild(test_ul);
-      
-    });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+  parent.appendChild(testList);
+  return parent;
 };
 
 const addListItem = (parent, text) => {
@@ -82,4 +75,4 @@ const addListItem = (parent, text) => {
   parent.appendChild(li);
 };
 
-fetchData();
+showList();
