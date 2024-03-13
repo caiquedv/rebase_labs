@@ -100,4 +100,4 @@ const addListItem = (parent, text) => {
   parent.appendChild(li);
 };
 
-// showList();
+showList();
