@@ -1,29 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="content-language" content="en">
+  <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tests List</title>
 </head>
 <body>
   <header>
-    <h1>Tests</h1>
-    <form class="search-token" method="GET">
-      <label for="token">Search by token:</label>
-      <input type="text" id="token" name="token">
-      <button type="submit">Search</button>
-    </form>
+    <h1>Rebase Labs</h1>
 
-    <form class="csv-upload" method="POST" enctype="multipart/form-data">
-      <label for="csvFile">Upload CSV file:</label>
-      <input type="file" id="csvFile" name="csvFile" accept=".csv">
-      <button type="submit">Upload</button>
-    </form>
+  <form class="search-token" method="GET">
+    <input type="text" id="token" name="token" placeholder="Token...">
+    <button type="submit">Search</button>
+  </form>
+
+  <form class="csv-upload" method="POST" enctype="multipart/form-data">
+    <label for="csvFile" id="fileLabel">Import CSV file</label>
+    <input type="file" id="csvFile" name="csvFile" accept=".csv">
+    <button type="submit" lang="en">Upload</button>
+  </form>
   </header>
-  
+
   <main>
+    <table border="1">
+      <thead>
+        <tr>
+          <th id="doctor"></th>
+          <th id="patient"></th>
+          <th id="exam"></th>
+        </tr>
+        <tr>
+          <th>Test Type</th>
+          <th>Limits</th>
+          <th>Results</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="test-row-model">
+          <td class="test-type"><span></span></td>
+          <td class="test-limits"><span class="min"></span> a <span class="max"></span></td>
+          <td class="test-results"><span></span></td>
+        </tr>        
+      </tbody>
+    </table> 
   </main>
 
-  <script src="main.js"></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>
