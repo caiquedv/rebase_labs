@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="content-language" content="en">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tests List</title>
 </head>
@@ -24,7 +24,7 @@
   </header>
 
   <main>
-    <table border="1">
+    <table border="1" class="table-model">
       <thead>
         <tr>
           <th id="doctor"></th>
@@ -37,16 +37,13 @@
           <th>Results</th>
         </tr>
       </thead>
-      <tbody>
-        <tr class="test-row-model">
-          <td class="test-type"><span></span></td>
-          <td class="test-limits"><span class="min"></span> a <span class="max"></span></td>
-          <td class="test-results"><span></span></td>
-        </tr>        
+      <tbody>     
       </tbody>
-    </table> 
+    </table>
+    
+    <section id="tables-list"></section>
   </main>
 
-  <script type="module" src="main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

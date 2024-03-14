@@ -67,7 +67,7 @@ button:hover, nav a:hover {
   border-color: unset;
 }
 
-main {
+#tables-list {
   text-align: center; 
   display: flex; 
   flex-direction: column; 
@@ -84,10 +84,10 @@ table > thead > tr:first-child th {
   padding: 10px;
 }
 
-.test-row-model {
+.table-model {
   display: none;
 }
 
-.test-results.out-limit {
+.out-limit {
   color: #f00
 }
