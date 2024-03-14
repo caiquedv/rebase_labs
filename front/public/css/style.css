@@ -1,0 +1,93 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0 ;
+  padding: 0;
+}
+
+header {
+  text-align: left;
+  margin: 0;
+  background-color: #618cfa;
+  color: #fff;
+  padding: 20px;
+  display: flex ;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+  user-select: none;
+}
+
+nav a {
+  text-decoration: none; 
+}
+
+input[type="text"], input[type="file"], button, nav a {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.csv-upload {
+  align-items: center;
+  display: flex;
+  gap: 0.2rem;
+}
+
+.csv-upload label {
+  padding: 5px;
+  background-color: #fff;
+  color: #777;
+  width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.csv-upload label:hover {
+  background-color: #bebdbd;
+  cursor: pointer;
+}
+
+button, nav a {
+  background-color: #99e399;
+  color: #333;
+  cursor: pointer;
+}
+
+button:hover, nav a:hover {
+  background-color: #82c882;
+  border-color: unset;
+}
+
+#tables-list {
+  text-align: center; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+}
+
+table {
+  width: 85%; 
+  margin-top: 1rem;
+}
+
+table > thead > tr:first-child th {
+  text-align: left;
+  padding: 10px;
+}
+
+.table-model {
+  display: none;
+}
+
+.out-limit {
+  color: #f00
+}
