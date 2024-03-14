@@ -12,7 +12,7 @@ const fetchDataAndBuildTable = async () => {
 		console.error('Error when building table:', error);
 	}	
 };
-
+ 
 fetchDataAndBuildTable();
 
 listeners.handleSearchToken();
