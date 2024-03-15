@@ -4,12 +4,10 @@ gem 'debug'
 gem 'pg'
 gem 'puma'
 gem 'rackup'
-gem 'rubocop'
 gem 'sinatra'
 gem 'sidekiq'
 
 group :test do
   gem 'rack-test'
   gem 'rspec'
-  gem 'simplecov', require: false
 end
