@@ -30,8 +30,9 @@ Para inserir dados de exames fake, execute na raíz do projeto <br>
 Para testar o Back-End execute `$ docker exec relabs-back rspec` <br>
 
 ## Abrir um terminal
-Para o back execute `$ docker exec -it relabs-back bash` <br>
-Para o front execute `$ docker exec -it relabs-front bash`
+Para o back-end execute `$ docker exec -it relabs-back bash` <br>
+Para o front-end execute `$ docker exec -it relabs-front bash` <br>
+Para o banco de dados execute `$ docker exec -it relabs-db bash` <br>
 
 ## Banco de dados
 Existe um banco de dados 'development' onde são inseridos os dados da interação com a app, como popular o banco de dados ou fazer o upload de um arquivo csv. Também há um banco de dados 'test' dedicado aos testes. As tabelas são limpas ao fim de cada teste. <br>
