@@ -5,7 +5,7 @@ const buildTable = async (obj, idx) => {
 
     table.querySelector('#doctor').innerHTML = `
         Doctor: ${obj.doctor.name} <br>
-        CRM: ${obj.doctor.crm}-${obj.doctor.crm_state};
+        CRM: ${obj.doctor.crm}-${obj.doctor.crm_state}
     `;
     table.querySelector('#patient').innerHTML = `
         Patient: ${obj.patient.name} <br>

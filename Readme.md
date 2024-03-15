@@ -23,7 +23,8 @@ Pressione Ctrl + C no terminal onde o Docker Compose está em execução. <br>
 (Opcional) Execute `$ docker-compose down --volumes` para remover os serviços e volumes.
 
 ## Popular Banco de dados
-Para inserir dados de exames fake, execute na raíz do projeto `$ ruby import_from_csv.rb`
+Para inserir dados de exames fake, execute na raíz do projeto <br> 
+`$ docker exec relabs-back ruby import_from_csv.rb`
 
 ## Testes
 Para testar o Back-End execute `$ docker exec relabs-back rspec` <br>

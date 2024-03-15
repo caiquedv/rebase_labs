@@ -11,15 +11,16 @@ export const fetchDataAndBuildTable = async () => {
 				buildTable(test, idx);
 			});
 		} else {
+			document.querySelector('#tables-list').innerHTML = ''
 			window.testsCach.forEach((test, idx) => {
 				buildTable(test, idx);
 			});
 		}
 	} catch (error) {
 		console.error('Error when building table:', error);
-	}	
+	}
 };
- 
+
 fetchDataAndBuildTable();
 
 listeners.handleSearchToken();
