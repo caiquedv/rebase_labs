@@ -27,7 +27,7 @@ const buildTable = async (obj, idx) => {
             <tr>
                 <td>${test.type}</td>
                 <td>${min} to ${max}</td>
-                <td class="${outLimitClass}">${test.results}</td>
+                <td>${test.results}</td>
             </tr>
         `;
     }).join('');
