@@ -28,7 +28,6 @@ Para inserir dados de exames fake, execute na raíz do projeto <br>
 
 ## Testes
 Para testar o Back-End execute `$ docker exec relabs-back rspec` <br>
-Para testar o Front-End execute `$ docker exec relabs-front rspec` <br>
 
 ## Abrir um terminal
 Para o back execute `$ docker exec -it relabs-back bash` <br>
