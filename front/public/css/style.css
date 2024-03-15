@@ -92,10 +92,6 @@ table > thead > tr:first-child th {
   display: none;
 }
 
-.out-limit {
-  color: #f00
-}
-
 .back-list {
   display: block;
 }

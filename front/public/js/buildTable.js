@@ -11,7 +11,7 @@ const buildTable = async (obj, idx) => {
         Patient: ${obj.patient.name} <br>
         CPF: ${obj.patient.cpf} <br>
         Date of birth: ${obj.patient.birthdate.replace(/-/g, "/")} <br>
-        Endereço: ${obj.patient.address} - ${obj.patient.city} / ${obj.patient.state}
+        Address: ${obj.patient.address} - ${obj.patient.city} / ${obj.patient.state}
     `;
     table.querySelector('#exam').innerHTML = `
         Token: ${obj.result_token} <br>
@@ -22,7 +22,6 @@ const buildTable = async (obj, idx) => {
 
     tbody.innerHTML = obj.tests.map(test => {
         const [min, max] = test.limits.split('-');
-        const outLimitClass = (test.results < min || test.results > max) ? 'out-limit' : '';
         
         return `
             <tr>
