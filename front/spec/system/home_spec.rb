@@ -5,6 +5,9 @@ RSpec.describe 'home', type: :system do
     it 'sees a list of exams' do
       visit '/'
     
+      test_mode = page.evaluate_script('document.querySelector("meta[name=\'test-mode\']").getAttribute("content")')
+      expect(test_mode).to eq('true')
+      
       expect(page).to have_content 'Token: entrei'
       expect(page).to have_content 'Result Date: 2021/08/05'
       expect(page).to have_content 'Patient: Emilly Batista Neto'
