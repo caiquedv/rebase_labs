@@ -38,22 +38,11 @@ services:
   redis:
     image: redis
 
-  chrome:
-    image: browserless/chrome:1.31-chrome-stable
-    ports:
-      - '3333:3333'
-    volumes:
-      - .:/app:cached
-    environment:
-      PORT: 3333
-
   front:
-    image: ruby:latest
+    build: .
     working_dir: /app
     volumes:
       - ./front:/app
-    depends_on:
-      - chrome 
     ports:
       - "2000:2000"
     command: bash -c 'gem install bundler && bundle install && ruby server.rb'
