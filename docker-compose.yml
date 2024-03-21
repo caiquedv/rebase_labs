@@ -50,6 +50,8 @@ services:
   front:
     image: ruby:latest
     working_dir: /app
+    environment:
+      TEST_MODE: "true"
     volumes:
       - ./front:/app
     depends_on:
