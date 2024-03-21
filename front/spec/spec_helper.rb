@@ -9,8 +9,7 @@ Capybara.register_driver(:cuprite) do |app|
     app,
     window_size: [1200, 800],
     browser_options: { 'no-sandbox': nil },
-    inspector: true,
-    url:  'http://chrome:3333'
+    inspector: true
   )
 end
 
