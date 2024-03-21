@@ -2,6 +2,7 @@ require 'capybara/rspec'
 require "capybara/cuprite"
 require 'debug'
 require 'rspec'
+require_relative '../server.rb'
 
 Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(
@@ -9,16 +10,24 @@ Capybara.register_driver(:cuprite) do |app|
     window_size: [1200, 800],
     browser_options: { 'no-sandbox': nil },
     inspector: true,
-    url:  'http://chrome:3333',
-    base_url: 'http://front:2000'
+    url:  'http://chrome:3333'
   )
 end
 
 Capybara.javascript_driver = :cuprite
+Capybara.app = Sinatra::Application
+Capybara.app_host = 'http://front:2000'
 
 include Capybara::DSL
 
 RSpec.configure do |config|
+  config.before(:each) do
+    visit '/set-test-mode'
+  end
+
+  config.after(:each) do
+    visit '/reset-test-mode'
+  end
     
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

@@ -7,6 +7,7 @@ export const fetchDataAndBuildTable = async () => {
 		if (!window.testsCach) {
 			const tests = await fetchData('/fetch');
 			window.testsCach = tests
+			
 			tests.forEach((test, idx) => {
 				buildTable(test, idx);
 			});
