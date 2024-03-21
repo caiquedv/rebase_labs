@@ -13,7 +13,7 @@ get '/' do
   
   content_type 'text/html'
   html_content = File.read('./views/index.html')
-  modified_html_content = html_content.gsub('<meta name="test-mode" content="false">', %Q[<meta name="test-mode" content="#{test_mode}">])
+  modified_html_content = html_content.gsub('REPLACE_TEST_MODE', test_mode)
   modified_html_content
 end
 
