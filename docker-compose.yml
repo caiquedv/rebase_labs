@@ -22,6 +22,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
     volumes:
       - ./back:/app
+      - bundle_data_back:/usr/local/bundle
     ports:
       - "3000:3000"
     depends_on:
@@ -43,7 +44,12 @@ services:
     working_dir: /app
     volumes:
       - ./front:/app
+      - bundle_data_front:/usr/local/bundle
     ports:
       - "2000:2000"
     command: bash -c 'gem install bundler && bundle install && ruby server.rb'
     container_name: relabs-front
+
+volumes:
+  bundle_data_back:
+  bundle_data_front:
