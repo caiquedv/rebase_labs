@@ -1,6 +1,6 @@
 const mockData = [
   {
-    "result_token": "Fake Data",
+    "result_token": "Fake Token",
     "result_date": "2021-08-05",
     "patient": {
       "cpf": "048.973.170-88",

@@ -13,10 +13,10 @@ RSpec.describe 'Test-Mode', type: :system do
       expect(rendered_html).to include('<meta name="test-mode" content="true">')
     end
 
-    it 'guarantees the use of fake data to build the page' do
+    it 'guarantees the use of Fake Token to build the page' do
       visit '/'
 
-      expect(page).to have_content 'Token: Fake Data'
+      expect(page).to have_content 'Token: Fake Token'
     end
   end  
 end
