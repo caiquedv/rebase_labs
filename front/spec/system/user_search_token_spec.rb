@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe 'Search Token', type: :system do
   context 'User search an exam by token', js: true do
     it "and sees all details" do

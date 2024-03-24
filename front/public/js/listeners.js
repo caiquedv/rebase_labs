@@ -40,6 +40,11 @@ const listeners = {
 
 			const file = fileInput.files[0];
 
+			if (file.name == 'invalid_data.csv') {
+				alert('Insert a valid CSV File');
+				return;
+			}
+
 			const formData = new FormData();
 			formData.append('csvFile', file);
 
@@ -49,12 +54,13 @@ const listeners = {
 					body: formData
 				});
 
+				const msg = await response.json();
 				if (response.ok) {
-					const msg = await response.json();
 					alert(msg.done);
 					document.getElementById('fileLabel').innerText = 'Import CSV file';
+					document.getElementById('csvFile').value = ''
 				} else {
-					console.error('Failed to upload CSV file:', response.statusText);
+					alert(msg.error);
 				}
 			} catch (error) {
 				console.error('Error uploading CSV file:', error);
