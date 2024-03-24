@@ -22,5 +22,4 @@ fetchDataAndbuildTestList();
 listeners.handleSearchToken();
 listeners.handleFileChange();
 listeners.handleCsvUpload();
-listeners.backToList();
 listeners.showTestDetails();

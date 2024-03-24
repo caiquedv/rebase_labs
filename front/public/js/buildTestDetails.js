@@ -1,10 +1,15 @@
 import fetchData from "./fetchData.js";
+import listeners from './listeners.js';
 
 const buildTestDetails = async (token) => {
     let test = null
     try {
         test = await fetchData(`/fetch/${token}`);
         test = test instanceof Array ? test[0] : test;
+        if (test.error) {
+            alert(test.error);
+            return;
+        }
     } catch (error) {
         console.error(`error when building test details ${error}`)
         return;
@@ -43,8 +48,17 @@ const buildTestDetails = async (token) => {
         `;
     }).join('');
 
-    document.querySelector('#tables-list').appendChild(table)
+    const list = document.getElementById('tables-list')
+    const divBackButton = document.createElement('div');
+    const backButton = document.createElement('button');
+    
+    backButton.innerText = 'Back to list';
 
+    list.appendChild(table)
+    divBackButton.appendChild(backButton)
+    list.insertBefore(divBackButton, list.firstChild);
+    
+    listeners.backToList(backButton);
 };
 
 export default buildTestDetails;

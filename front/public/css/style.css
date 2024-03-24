@@ -36,14 +36,6 @@ input[type="text"], input[type="file"], button, nav a {
   gap: 2px
 }
 
-.back-list {
-  display: block;
-}
-
-.back-list-none {
-  display: none;
-}
-
 input[type="file"] {
   display: none;
 }
@@ -84,11 +76,11 @@ button:hover, nav a:hover {
   display: flex; 
   flex-direction: column; 
   align-items: center;
+  margin-top: 1rem;
 }
 
 table {
   width: 85%; 
-  margin-top: 1rem;
 }
 
 table thead tr th {

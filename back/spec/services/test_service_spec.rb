@@ -156,5 +156,15 @@ RSpec.describe TestService, type: :service do
         }
       )
     end
+
+    it 'error when token is invalid' do
+      db_result = nil
+    
+      db_connection = double('PG::Connection', exec: db_result, close: nil)
+      allow(DatabaseConfig).to receive(:connect).and_return(db_connection)
+    
+      parsed_tests = JSON.parse(TestService.parse_tests_by_token('Invalid 123'))
+      expect(parsed_tests).to eq({'error'=>'Invalid token'})
+    end    
   end
 end

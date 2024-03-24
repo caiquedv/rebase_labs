@@ -2,6 +2,7 @@ const buildTestList = async (tests) => {
     const table = document.querySelector('.table-list-model').cloneNode(true);
     const tbody = table.querySelector('tbody');
     table.classList.remove('table-list-model');
+    document.getElementById('tables-list').innerHTML = '';
 
     tbody.innerHTML = tests.map((test, idx) => {
         return `

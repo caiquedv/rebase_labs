@@ -1,4 +1,3 @@
-import fetchData from './fetchData.js';
 import buildTestDetails from './buildTestDetails.js';
 import { fetchDataAndbuildTestList } from './main.js'
 
@@ -6,22 +5,19 @@ const listeners = {
 	handleSearchToken: function () {
 		document.querySelector('.search-token').addEventListener('submit', async (e) => {
 			e.preventDefault();
-			const token = e.target[0].value;
 
+			const token = e.target[0].value;
 			if (!token) {
 				alert('Please insert a token');
 				return;
 			}
 
-			try {
-				buildTestDetails(token);
-
-				const backButton = document.querySelector('.back-list-none')
-				backButton.classList.remove('back-list-none')
-				backButton.classList.add('back-list')
-			} catch (error) {
-				console.error('Error building single table:', error);
+			const validToken = window.testsCache.filter(test => test.result_token === token);
+			if (validToken.length == 0) {
+				alert('Invalid token');
+				return;
 			}
+			buildTestDetails(token);
 		});
 	},
 
@@ -66,18 +62,16 @@ const listeners = {
 		});
 	},
 
-	backToList: function () {
-		const backToListButton = document.getElementById('back');
+	backToList: function (backToListButton) {
 		backToListButton.addEventListener('click', () => {
 			document.getElementById('tables-list').innerHTML = '';
+			document.getElementById('token').value = ''
 			fetchDataAndbuildTestList();
-			backToListButton.classList.remove('back-list')
-			backToListButton.classList.add('back-list-none')
 		});
 	},
 
 	showTestDetails: function () {
-		document.getElementById('tables-list').addEventListener('click', function(ev) {
+		document.getElementById('tables-list').addEventListener('click', function (ev) {
 			const clickedRow = ev.target.closest('tr');
 			if (clickedRow) {
 				const token = clickedRow.dataset.token;

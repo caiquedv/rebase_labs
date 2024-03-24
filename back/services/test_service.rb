@@ -99,9 +99,12 @@ class TestService
          e.id, p.id, d.id
        ORDER BY
          e.id;
-    ").entries.first
+    ")
     
     conn.close
+
+    return { error: 'Invalid token' }.to_json if result.nil?
+    result = result.entries.first
     
     result['patient'] = JSON.parse result['patient']
     result['doctor'] = JSON.parse result['doctor']
