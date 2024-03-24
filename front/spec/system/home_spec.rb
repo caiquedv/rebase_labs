@@ -4,7 +4,7 @@ RSpec.describe 'Home', type: :system do
   context 'User visits home page', js: true do
     it 'sees a list of exams' do
       visit '/'
-
+      
       expect(page).to have_selector('thead tr th', text: 'Token')
       expect(page).to have_selector('thead tr th', text: 'Result Date')
       expect(page).to have_selector('thead tr th', text: 'Patient')
@@ -42,6 +42,13 @@ RSpec.describe 'Home', type: :system do
       expect(page).to have_selector('tbody tr td', text: '89')
     end
 
-    pending '3. paginação da listagem'
+    it 'sees paged list of exams' do
+      visit '/'
+      click_on '2'
+
+      expect(page).to have_selector '.active-page', text: '2'
+      expect(page).to have_selector('tbody tr td', text: 'Page 2 Token')
+      expect(page).not_to have_selector('tbody tr td', text: 'Fake Token')
+    end
   end  
 end
