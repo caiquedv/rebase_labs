@@ -111,3 +111,11 @@ table tbody tr:nth-child(even) {
 .table-list-model, .table-details-model {
   display: none;
 }
+
+.active-page {
+  background-color: #618cfa;
+}
+
+.pagination-controls {
+  margin-top: 1rem;
+}

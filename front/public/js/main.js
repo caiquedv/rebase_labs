@@ -9,9 +9,9 @@ export const fetchDataAndbuildTestList = async () => {
 			
 			window.testsCache = tests
 			
-			buildTestList(tests, 1);
+			buildTestList(tests, window.currentPage || 1);
 		} else {
-			buildTestList(window.testsCache, 1);
+			buildTestList(window.testsCache, window.currentPage || 1);
 		}
 	} catch (error) {
 		console.error('Error when building tests list:', error);

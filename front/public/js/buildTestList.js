@@ -1,7 +1,9 @@
 const testMode = document.querySelector('meta[name="test-mode"]').getAttribute('content') === 'true';
-const ITEMS_PER_PAGE = testMode ? 1 : 5;
+const ITEMS_PER_PAGE = testMode ? 1 : 15;
 
 const buildTestList = async (tests, currentPage) => {
+    window.currentPage = currentPage;
+
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     const testsForCurrentPage = tests.slice(startIndex, endIndex);
@@ -32,7 +34,7 @@ const buildTestList = async (tests, currentPage) => {
 const buildPaginationControls = (totalItems, currentPage) => {
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
     const paginationContainer = document.createElement('div');
-    paginationContainer.className = 'pagination-controls';
+    paginationContainer.classList.add('pagination-controls');
 
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement('button');
