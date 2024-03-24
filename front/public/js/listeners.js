@@ -52,7 +52,7 @@ const listeners = {
 			formData.append('csvFile', file);
 
 			try {
-				const response = await fetch('/fetch/csv', {
+				const response = await fetch('/fetch-csv', {
 					method: 'POST',
 					body: formData
 				});

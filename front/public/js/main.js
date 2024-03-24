@@ -4,18 +4,13 @@ import listeners from './listeners.js';
 
 export const fetchDataAndBuildTable = async () => {
 	try {
-		if (!window.testsCach) {
+		if (!window.testsCache) {
 			const tests = await fetchData('/fetch');
-			window.testsCach = tests
+			window.testsCache = tests
 			
-			tests.forEach((test, idx) => {
-				buildTable(test, idx);
-			});
+			buildTable(tests);
 		} else {
-			document.querySelector('#tables-list').innerHTML = ''
-			window.testsCach.forEach((test, idx) => {
-				buildTable(test, idx);
-			});
+			buildTable(window.testsCache);
 		}
 	} catch (error) {
 		console.error('Error when building table:', error);

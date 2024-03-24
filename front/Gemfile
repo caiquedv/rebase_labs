@@ -9,6 +9,7 @@ gem 'faraday-multipart'
 group :test do
   gem 'capybara'
   gem 'cuprite'
+  gem 'debug'
   gem 'rack-test'
   gem 'rspec'
 end

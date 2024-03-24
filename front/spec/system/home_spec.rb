@@ -1,24 +1,26 @@
 require 'spec_helper'
 
-RSpec.describe 'home', type: :system do
-  describe 'User visit home page', js: true do
-    it 'sees a list of exams' do
+RSpec.describe 'Home', type: :system do
+  context 'User visits home page', js: true do
+    it 'sees a list of links of exams' do
       visit '/'
-      
-      expect(page).to have_content 'Token: Fake Data'
-      expect(page).to have_content 'Result Date: 2021/08/05'
-      expect(page).to have_content 'Patient: Emilly Batista Neto'
-      expect(page).to have_content 'CPF: 048.973.170-88'
-      expect(page).to have_content 'Address: 165 Rua Rafaela - Ituverava / Alagoas'
-      expect(page).to have_content 'Date of birth: 2001/03/11'
-      expect(page).to have_content 'Doctor: Maria Luiza Pires'
-      expect(page).to have_content 'CRM: B000BJ20J4-PI'
-      expect(page).to have_content 'hemácias'
-      expect(page).to have_content '45 to 52'
-      expect(page).to have_content '97'
-      expect(page).to have_content 'leucócitos'
-      expect(page).to have_content '9 to 61'
-      expect(page).to have_content '89'
+
+      expect(page).to have_selector('thead tr th', text: 'Token')
+      expect(page).to have_selector('thead tr th', text: 'Result Date')
+      expect(page).to have_selector('thead tr th', text: 'Patient')
+      expect(page).to have_selector('thead tr th', text: 'CPF')
+      expect(page).to have_selector('thead tr th', text: 'Doctor')
+      expect(page).to have_selector('thead tr th', text: 'CRM')
+
+      expect(page).to have_selector('tbody tr td', text: 'Fake Token')
+      expect(page).to have_selector('tbody tr td', text: '2021/08/05')
+      expect(page).to have_selector('tbody tr td', text: 'Emilly Batista Neto')
+      expect(page).to have_selector('tbody tr td', text: '048.973.170-88')
+      expect(page).to have_selector('tbody tr td', text: 'Maria Luiza Pires')
+      expect(page).to have_selector('tbody tr td', text: 'B000BJ20J4/PI')
     end
+
+    pending '2. visualização completa'
+    pending '3. paginação da listagem'
   end  
 end

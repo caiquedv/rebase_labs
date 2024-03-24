@@ -1,33 +1,17 @@
-const buildTable = async (obj, idx) => {
+const buildTable = async (tests) => {
     const table = document.querySelector('.table-model').cloneNode(true);
-    table.classList.remove('table-model');
-    table.classList.add(`table-${idx}`)
-
-    table.querySelector('#doctor').innerHTML = `
-        Doctor: ${obj.doctor.name} <br>
-        CRM: ${obj.doctor.crm}-${obj.doctor.crm_state}
-    `;
-    table.querySelector('#patient').innerHTML = `
-        Patient: ${obj.patient.name} <br>
-        CPF: ${obj.patient.cpf} <br>
-        Date of birth: ${obj.patient.birthdate.replace(/-/g, "/")} <br>
-        Address: ${obj.patient.address} - ${obj.patient.city} / ${obj.patient.state}
-    `;
-    table.querySelector('#exam').innerHTML = `
-        Token: ${obj.result_token} <br>
-        Result Date: ${obj.result_date.replace(/-/g, "/")} <br>
-    `;
-
     const tbody = table.querySelector('tbody');
+    table.classList.remove('table-model');
 
-    tbody.innerHTML = obj.tests.map(test => {
-        const [min, max] = test.limits.split('-');
-        
+    tbody.innerHTML = tests.map((test, idx) => {
         return `
-            <tr>
-                <td>${test.type}</td>
-                <td>${min} to ${max}</td>
-                <td>${test.results}</td>
+            <tr class="row-${idx}">
+                <td>${test.result_token}</td>
+                <td>${test.result_date.replace(/-/g, "/")}</td> 
+                <td>${test.patient.name}</td>
+                <td>${test.patient.cpf}</td>
+                <td>${test.doctor.name}</td>
+                <td>${test.doctor.crm}/${test.doctor.crm_state}</td>
             </tr>
         `;
     }).join('');
