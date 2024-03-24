@@ -1,5 +1,4 @@
 import fetchData from './fetchData.js';
-import buildTestList from './buildTestList.js';
 import buildTestDetails from './buildTestDetails.js';
 import { fetchDataAndbuildTestList } from './main.js'
 
@@ -15,11 +14,7 @@ const listeners = {
 			}
 
 			try {
-				const dataPerToken = await fetchData(`/fetch/${token}`);
-
-				document.getElementById('tables-list').innerHTML = '';
-
-				buildTestList(dataPerToken, 0);
+				buildTestDetails(token);
 
 				const backButton = document.querySelector('.back-list-none')
 				backButton.classList.remove('back-list-none')
@@ -74,6 +69,7 @@ const listeners = {
 	backToList: function () {
 		const backToListButton = document.getElementById('back');
 		backToListButton.addEventListener('click', () => {
+			document.getElementById('tables-list').innerHTML = '';
 			fetchDataAndbuildTestList();
 			backToListButton.classList.remove('back-list')
 			backToListButton.classList.add('back-list-none')
