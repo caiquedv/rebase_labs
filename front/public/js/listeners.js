@@ -1,6 +1,7 @@
 import fetchData from './fetchData.js';
-import buildTable from './buildTable.js';
-import { fetchDataAndBuildTable } from './main.js'
+import buildTestList from './buildTestList.js';
+import buildTestDetails from './buildTestDetails.js';
+import { fetchDataAndbuildTestList } from './main.js'
 
 const listeners = {
 	handleSearchToken: function () {
@@ -18,7 +19,7 @@ const listeners = {
 
 				document.getElementById('tables-list').innerHTML = '';
 
-				buildTable(dataPerToken, 0);
+				buildTestList(dataPerToken, 0);
 
 				const backButton = document.querySelector('.back-list-none')
 				backButton.classList.remove('back-list-none')
@@ -73,9 +74,19 @@ const listeners = {
 	backToList: function () {
 		const backToListButton = document.getElementById('back');
 		backToListButton.addEventListener('click', () => {
-			fetchDataAndBuildTable();
+			fetchDataAndbuildTestList();
 			backToListButton.classList.remove('back-list')
 			backToListButton.classList.add('back-list-none')
+		});
+	},
+
+	showTestDetails: function () {
+		document.getElementById('tables-list').addEventListener('click', function(ev) {
+			const clickedRow = ev.target.closest('tr');
+			if (clickedRow) {
+				const token = clickedRow.dataset.token;
+				token && buildTestDetails(token);
+			}
 		});
 	}
 };

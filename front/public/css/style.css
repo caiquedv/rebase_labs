@@ -96,6 +96,10 @@ table thead tr th {
   padding: 10px;
 }
 
+table tbody tr:not(.test-details) {
+  cursor: pointer;
+}
+
 table tbody tr td {
   padding: 8px;
 }
@@ -108,6 +112,6 @@ table tbody tr:nth-child(even) {
   background-color: #ddd; 
 }
 
-.table-model {
+.table-list-model, .table-details-model {
   display: none;
 }
