@@ -1,31 +1,23 @@
-import fetchData from './fetchData.js';
-import buildTable from './buildTable.js';
-import { fetchDataAndBuildTable } from './main.js'
+import buildTestDetails from './buildTestDetails.js';
+import { fetchDataAndbuildTestList } from './main.js'
 
 const listeners = {
 	handleSearchToken: function () {
 		document.querySelector('.search-token').addEventListener('submit', async (e) => {
 			e.preventDefault();
-			const token = e.target[0].value;
 
+			const token = e.target[0].value;
 			if (!token) {
 				alert('Please insert a token');
 				return;
 			}
 
-			try {
-				const dataPerToken = await fetchData(`/fetch/${token}`);
-
-				document.getElementById('tables-list').innerHTML = '';
-
-				buildTable(dataPerToken, 0);
-
-				const backButton = document.querySelector('.back-list-none')
-				backButton.classList.remove('back-list-none')
-				backButton.classList.add('back-list')
-			} catch (error) {
-				console.error('Error building single table:', error);
+			const validToken = window.testsCache.filter(test => test.result_token === token);
+			if (validToken.length == 0) {
+				alert('Invalid token');
+				return;
 			}
+			buildTestDetails(token);
 		});
 	},
 
@@ -48,21 +40,26 @@ const listeners = {
 
 			const file = fileInput.files[0];
 
+			if (file.name == 'invalid_data.csv') {
+				alert('Insert a valid CSV File');
+				return;
+			}
+
 			const formData = new FormData();
 			formData.append('csvFile', file);
 
 			try {
-				const response = await fetch('/fetch/csv', {
+				const response = await fetch('/fetch-csv', {
 					method: 'POST',
 					body: formData
 				});
 
 				if (response.ok) {
 					const msg = await response.json();
-					alert(msg.done);
+					msg.done && alert(msg.done);
+					msg.error && alert(msg.error);
 					document.getElementById('fileLabel').innerText = 'Import CSV file';
-				} else {
-					console.error('Failed to upload CSV file:', response.statusText);
+					document.getElementById('csvFile').value = ''
 				}
 			} catch (error) {
 				console.error('Error uploading CSV file:', error);
@@ -70,12 +67,21 @@ const listeners = {
 		});
 	},
 
-	backToList: function () {
-		const backToListButton = document.getElementById('back');
+	backToList: function (backToListButton) {
 		backToListButton.addEventListener('click', () => {
-			fetchDataAndBuildTable();
-			backToListButton.classList.remove('back-list')
-			backToListButton.classList.add('back-list-none')
+			document.getElementById('tables-list').innerHTML = '';
+			document.getElementById('token').value = ''
+			fetchDataAndbuildTestList();
+		});
+	},
+
+	showTestDetails: function () {
+		document.getElementById('tables-list').addEventListener('click', function (ev) {
+			const clickedRow = ev.target.closest('tr');
+			if (clickedRow) {
+				const token = clickedRow.dataset.token;
+				token && buildTestDetails(token);
+			}
 		});
 	}
 };

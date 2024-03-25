@@ -9,6 +9,10 @@ post '/import' do
 
   rows = CSV.read(params[:file][:tempfile], col_sep: ';')
 
+  invalid_csv = CSVImporter.validate_csv(rows)
+
+  return { error: invalid_csv.join(', ') }.to_json if invalid_csv.any?
+
   CSVImporterJob.perform_async(rows)
 
   { done: 'Your document has been enqueued to import' }.to_json

@@ -1,30 +1,26 @@
 import fetchData from './fetchData.js';
-import buildTable from './buildTable.js';
+import buildTestList from './buildTestList.js';
 import listeners from './listeners.js';
 
-export const fetchDataAndBuildTable = async () => {
+export const fetchDataAndbuildTestList = async () => {
 	try {
-		if (!window.testsCach) {
+		if (!window.testsCache) {
 			const tests = await fetchData('/fetch');
-			window.testsCach = tests
 			
-			tests.forEach((test, idx) => {
-				buildTable(test, idx);
-			});
+			window.testsCache = tests
+			
+			buildTestList(tests, window.currentPage || 1);
 		} else {
-			document.querySelector('#tables-list').innerHTML = ''
-			window.testsCach.forEach((test, idx) => {
-				buildTable(test, idx);
-			});
+			buildTestList(window.testsCache, window.currentPage || 1);
 		}
 	} catch (error) {
-		console.error('Error when building table:', error);
+		console.error('Error when building tests list:', error);
 	}
 };
 
-fetchDataAndBuildTable();
+fetchDataAndbuildTestList();
 
 listeners.handleSearchToken();
 listeners.handleFileChange();
 listeners.handleCsvUpload();
-listeners.backToList();
+listeners.showTestDetails();

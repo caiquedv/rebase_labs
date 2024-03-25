@@ -3,7 +3,7 @@ require_relative '../../services/test_service'
 
 RSpec.describe TestService, type: :service do
   context '.parse_tests' do
-    it 'parses test results correctly' do
+    it 'must return a JSON with all tests' do
       db_result = [
         {
           'result_token' => 'IQCZ17',
@@ -82,7 +82,7 @@ RSpec.describe TestService, type: :service do
   end
 
   context '.parse_tests_by_token' do
-    it 'must return a JSON with full tests per token' do
+    it 'must return a JSON with full test per token' do
       db_result = [
         {
           'result_token' => 'IQCZ17',
@@ -156,5 +156,15 @@ RSpec.describe TestService, type: :service do
         }
       )
     end
+
+    it 'error when token is invalid' do
+      db_result = nil
+    
+      db_connection = double('PG::Connection', exec: db_result, close: nil)
+      allow(DatabaseConfig).to receive(:connect).and_return(db_connection)
+    
+      parsed_tests = JSON.parse(TestService.parse_tests_by_token('Invalid 123'))
+      expect(parsed_tests).to eq({'error'=>'Invalid token'})
+    end    
   end
 end
