@@ -54,13 +54,12 @@ const listeners = {
 					body: formData
 				});
 
-				const msg = await response.json();
 				if (response.ok) {
-					alert(msg.done);
+					const msg = await response.json();
+					msg.done && alert(msg.done);
+					msg.error && alert(msg.error);
 					document.getElementById('fileLabel').innerText = 'Import CSV file';
 					document.getElementById('csvFile').value = ''
-				} else {
-					alert(msg.error);
 				}
 			} catch (error) {
 				console.error('Error uploading CSV file:', error);

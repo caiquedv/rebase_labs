@@ -4,11 +4,11 @@ require_relative '../services/database'
 Dir[File.join(__dir__, '../models', '*.rb')].each { |file| require file }
 
 class CSVImporter
-  def self.import(csv_rows = nil)
+  def self.import(csv_data = nil)
     connection = DatabaseConfig.connect
 
-    rows = csv_rows if csv_rows
-    rows = CSV.read('./data/data.csv', col_sep: ';') if csv_rows.nil?
+    rows = csv_data if csv_data
+    rows = CSV.read('./data/data.csv', col_sep: ';') if csv_data.nil?
 
     columns = rows.shift
     
@@ -61,5 +61,40 @@ class CSVImporter
       end
     end
     connection.close
+  end
+
+  def self.validate_csv(csv_rows)
+    return ['CSV cannot be blank'] if csv_rows.empty?
+
+    errors = []
+
+    expected_columns = [
+      "cpf",
+      "nome paciente",
+      "email paciente",
+      "data nascimento paciente",
+      "endereço/rua paciente",
+      "cidade paciente",
+      "estado patiente",
+      "crm médico",
+      "crm médico estado",
+      "nome médico",
+      "email médico",
+      "token resultado exame",
+      "data exame",
+      "tipo exame",
+      "limites tipo exame",
+      "resultado tipo exame"
+    ]
+
+    csv_rows.map.with_index do |row, idx|
+      error_msg_column = 'CSV does not have all or any columns at first line'
+      error_msg_value = "CSV does not have all or any values at line #{idx + 1}"
+
+      errors << error_msg_column if idx == 0 && row != expected_columns
+      errors << error_msg_value if (idx == 0 && csv_rows.size == 1) || (idx != 0 && row.size != 16)
+    end
+
+    errors
   end
 end
